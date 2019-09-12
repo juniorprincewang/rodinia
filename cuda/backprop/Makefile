@@ -6,7 +6,7 @@ CC_FLAGS = -g  -O2
 
 # CUDA compiler
 NVCC = $(CUDA_DIR)/bin/nvcc
-NVCC_FLAGS = -I$(CUDA_DIR)/include
+NVCC_FLAGS = -I$(CUDA_DIR)/include --cudart=shared
 
 # 'make dbg=1' enables NVCC debugging
 ifeq ($(dbg),1)
@@ -20,9 +20,10 @@ ifeq ($(emu),1)
 	NVCC_FLAGS += -deviceemu
 endif
 
+EXE = backprop.out
 
 backprop: backprop.o facetrain.o imagenet.o backprop_cuda.o 
-	$(CC) $(CC_FLAGS) backprop.o facetrain.o imagenet.o backprop_cuda.o -o backprop -L$(CUDA_LIB_DIR) -lcuda -lcudart -lm
+	$(CC) $(CC_FLAGS) backprop.o facetrain.o imagenet.o backprop_cuda.o -o $(EXE) -L$(VCUDA_LIB_DIR) -lcudart -lm
 
 %.o: %.[ch]
 	$(CC) $(CC_FLAGS) $< -c
@@ -41,4 +42,4 @@ imagenet.o: imagenet.c backprop.h
 
 
 clean:
-	rm -f *.o *~ backprop backprop_cuda.linkinfo
+	rm -f *.o *~ $(EXE) backprop_cuda.linkinfo
