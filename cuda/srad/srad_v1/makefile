@@ -1,9 +1,10 @@
 include ../../../common/make.config
 
-CC := $(CUDA_DIR)/bin/nvcc
+CC := $(CUDA_DIR)/bin/nvcc --cudart=shared
 
 INCLUDE := $(CUDA_DIR)/include
 
+EXE = srad.out
 # Example
 # target: dependencies
 	# command 1
@@ -18,7 +19,7 @@ a.out:		main.o
 	$(CC)	main.o \
 				-I$(INCLUDE) \
 				-L$(CUDA_LIB_DIR)  \
-				-lm -lcuda -lcudart -o srad
+				-lm -lcudart -o $(EXE)
 
 # compile main function file into object (binary)
 main.o: 	main.cu \
@@ -30,9 +31,8 @@ main.o: 	main.cu \
 				srad_kernel.cu \
 				srad2_kernel.cu \
 				compress_kernel.cu
-	nvcc	main.cu \
-				-c -O3 -arch sm_35
+	nvcc	main.cu -c -O3
 
 # delete all object files
 clean:
-	rm *.o srad
+	rm *.o $(EXE)

@@ -23,7 +23,7 @@ endif
 EXE = backprop.out
 
 backprop: backprop.o facetrain.o imagenet.o backprop_cuda.o 
-	$(CC) $(CC_FLAGS) backprop.o facetrain.o imagenet.o backprop_cuda.o -o $(EXE) -L$(VCUDA_LIB_DIR) -lcudart -lm
+	$(CC) $(CC_FLAGS) backprop.o facetrain.o imagenet.o backprop_cuda.o -o $(EXE) -L$(CUDA_LIB_DIR) -lcudart -lm
 
 %.o: %.[ch]
 	$(CC) $(CC_FLAGS) $< -c

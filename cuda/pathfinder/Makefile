@@ -1,11 +1,11 @@
 include ../../common/make.config
 
-CC := $(CUDA_DIR)/bin/nvcc
+CC := $(CUDA_DIR)/bin/nvcc --cudart=shared
 INCLUDE := $(CUDA_DIR)/include
 
 SRC = pathfinder.cu
 
-EXE = pathfinder
+EXE = pathfinder.out
 
 release:
 	$(CC) $(SRC) -o $(EXE) -I$(INCLUDE) -L$(CUDA_LIB_DIR) 
@@ -24,4 +24,4 @@ debugenum:
 	$(CC) -g -deviceemu $(SRC) -o $(EXE) -I$(INCLUDE) -L$(CUDA_LIB_DIR) 
 
 clean:
-	rm -f pathfinder
+	rm -f $(EXE)

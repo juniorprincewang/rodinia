@@ -1,3 +1,4 @@
+include ../../../common/make.config
 CC = gcc
 NVCC = nvcc
 
@@ -6,9 +7,10 @@ DEFS += \
 		$(SPACE)
 
 NVCCFLAGS += -I../common \
+			 -L$(CUDA_LIB_DIR) \
 			 -O3 \
+			 --cudart=shared \
 			 -use_fast_math \
-			 -arch=sm_20 \
 			 -lm \
 			 $(SPACE)
 
@@ -19,7 +21,7 @@ CFLAGS += -I../common \
 		  $(SPACE)
 
 # Add source files here
-EXECUTABLE  := lud_cuda
+EXECUTABLE  := lud_cuda.out
 # Cuda source files (compiled with cudacc)
 CUFILES     := lud_kernel.cu
 # C/C++ source files (compiled with gcc / c++)

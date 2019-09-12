@@ -1,11 +1,11 @@
 include ../../common/make.config
 
-CC := $(CUDA_DIR)/bin/nvcc
+CC := $(CUDA_DIR)/bin/nvcc --cudart=shared
 
 INCLUDE := $(CUDA_DIR)/include
 
 SRC = gaussian.cu
-EXE = gaussian
+EXE = gaussian.out
 
 release: $(SRC)
 	$(CC) $(KERNEL_DIM) $(SRC) -o $(EXE) -I$(INCLUDE) -L$(CUDA_LIB_DIR) 
@@ -15,4 +15,4 @@ clang: $(SRC)
 		-L/usr/local/cuda/lib64 -lcudart_static -ldl -lrt -pthread -DTIMING
 
 clean:
-	rm gaussian
+	rm $(EXE)
