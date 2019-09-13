@@ -1,10 +1,10 @@
 include ../../common/make.config
 
-NVCC = $(CUDA_DIR)/bin/nvcc
+NVCC = $(CUDA_DIR)/bin/nvcc --cudart=shared
 
-NVCC_FLAGS = -I$(CUDA_DIR)/include
+NVCC_FLAGS = -I$(CUDA_DIR)/include -L$(CUDA_LIB_DIR)
 
-TARGET_G = sc_gpu
+TARGET_G = sc_gpu.out
 
 
 # make dbg=1 tells nvcc to add debugging symbols to the binary
@@ -26,7 +26,7 @@ endif
 
 
 $(TARGET_G): streamcluster_cuda_cpu.cpp streamcluster_cuda.cu streamcluster_header.cu
-	$(NVCC) $(NVCC_FLAGS) streamcluster_cuda_cpu.cpp streamcluster_cuda.cu streamcluster_header.cu -o $(TARGET_G) -lcuda
+	$(NVCC) $(NVCC_FLAGS) streamcluster_cuda_cpu.cpp streamcluster_cuda.cu streamcluster_header.cu -o $(TARGET_G)
 	
 
 clean:
